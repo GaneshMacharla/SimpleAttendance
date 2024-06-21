@@ -107,7 +107,13 @@
             document.execCommand("copy");
             copyButton.textContent="Copied";
             showCopyMessage();
+            clearText();
 
+        }
+
+        function clearText()
+        {
+            pins.value="";
         }
 
        
