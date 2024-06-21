@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Attendance</title>
+    <style>
+        body{
+            font-family: 'Gill Sans', 'Gill Sans MT','Trebuchet MS', sans-serif;
+
+        }
+        .wrong-mark::after {
+            content: "✘"; /* Unicode character for X mark */
+            color: white; /* Color of the mark */
+            font-weight: bold; /* Optional: Adjust font weight as needed */
+            font-size: 16px; /* Optional: Adjust font size as needed */
+            margin-left: 5px; /* Optional: Add some space between button text and mark */
+        }
+        button{
+            width:40px;
+            height:30px;
+            border-radius: 10px;
+            border-color:rgb(123,44,130);
+        }
+        .cpy-btn{
+           margin:0px;
+           align-items: center;
+           width:100px;
+
+        }
+        .cpy-btn:hover{
+            cursor: pointer;
+        }
+        #copyMessage {
+            display: none; /* Hidden by default */
+            position: fixed;
+            bottom: 10px; /* Position from the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #547455; /* Green background */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            z-index: 1000;
+            width:200px;    
+        }
+    </style>
+    <script >
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons=document.querySelector(".buttons");
+            const pins=document.querySelector(".pins");
+            const copyButton=document.querySelector(".cpy-btn");
+            
+            addButtons();
+        function addButtons()
+        {
+            for(let i=61;i<=125;i++)
+            {
+                const button=document.createElement("button");
+                const id="button"+i;
+                button.textContent=i;
+                button.id=id;
+                
+                button.style.margin="5px";
+                button.addEventListener("click",()=>{
+                    display(i);
+
+                    markAsWrong(button);
+                });
+                buttons.appendChild(button);
+                
+
+            }
+
+        }
+        
+        function markAsWrong(button)
+        {
+            button.style.backgroundColor="red";
+            button.classList.add('wrong-mark');
+            button.disabled=true;
+            button.textContent="";
+        }
+
+        function display(pin)
+        {
+            pins.value+=pin+",";
+        }
+
+        copyButton.addEventListener("click",()=>{
+
+            cpyBtn();
+        });
+
+        function showCopyMessage() {
+            copyMessage.style.display = "block";
+            setTimeout(() => {
+                copyMessage.style.display = "none";
+            }, 3000); // Hide after 3 seconds
+        }
+
+        function cpyBtn()
+        {
+            pins.select();
+            document.execCommand("copy");
+            copyButton.textContent="Copied";
+            showCopyMessage();
+
+        }
+
+       
+        
+
+        });
+
+      
+
+        
+    </script>
+</head>
+<body>
+    <h1>Simple Attendance</h1>
+
+    <h3>Select Absentes pins.......</h3>
+    <div class="buttons">
+
+    </div>
+    <h2>Absentes pins:-</h2>
+    <textarea class="pins" cols="30" rows="10"></textarea>
+    <div class="copy-button">
+        <button class="cpy-btn">Copy</button>
+    </div>
+    <div id ="copyMessage">pins copied to clipBoard</div>
+
+</body>
+</html>
